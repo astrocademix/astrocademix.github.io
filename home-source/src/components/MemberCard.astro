@@ -10,12 +10,18 @@ const {
   email,
   tags = [],
 } = member.data;
+
+const base = import.meta.env.BASE_URL;
+const avatarUrl = avatar
+  ? (avatar.startsWith('/') ? `${base}${avatar.slice(1)}` : `${base}${avatar}`)
+  : null;
 ---
+
 
 <article class={`member-card ${featured ? 'featured' : ''}`}>
   {avatar && (
     <div class="avatar-wrap">
-      <img src={avatar} alt={name} class="avatar" />
+      <img src={avatarUrl} alt={name} class="avatar" />
     </div>
   )}
 
