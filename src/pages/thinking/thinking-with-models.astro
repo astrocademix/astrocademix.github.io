@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StarfieldBackground from '../../components/StarfieldBackground.astro';
+import NavBar from '../../components/NavBar.astro';
+import Footer from '../../components/Footer.astro';
+
+const links = [
+  { href: '/home#about', label: 'About' },
+  { href: '/home#members', label: 'Members' },
+  { href: '/thinking', label: 'Thinking' }
+];
+---
+<BaseLayout title="Thinking with models, not only with outputs" description="Starter thinking note.">
+  <StarfieldBackground />
+  <NavBar links={links} />
+  <main class="section">
+    <div class="container" style="max-width: 760px;">
+      <div class="section-kicker">Methods</div>
+      <h1 class="section-title">Thinking with models, not only with outputs</h1>
+      <div class="glass floating-panel">
+        <p class="section-copy" style="max-width:none; margin-top:0;">
+          Use this page for a short reflection on why interpretability matters in scientific machine learning. The tone can stay simple, direct, and thoughtful.
+        </p>
+        <p class="section-copy" style="max-width:none;">
+          This is also a good place for internal notes: what kinds of models the club is excited about, what trade-offs you care about, and what you think counts as scientific understanding rather than only predictive performance.
+        </p>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

@@ -1,0 +1,10 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StarfieldBackground from '../components/StarfieldBackground.astro';
+import EntryHero from '../components/EntryHero.astro';
+import { site } from '../data/site';
+---
+<BaseLayout title={`${site.name} · Entry`} description={site.tagline}>
+  <StarfieldBackground />
+  <EntryHero />
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  summary: string;
+  date: string;
+  tag: string;
+  href: string;
+}
+
+const { title, summary, date, tag, href } = Astro.props;
+---
+<a class="thinking-card glass" href={href}>
+  <div class="post-meta">{tag} · {date}</div>
+  <h3>{title}</h3>
+  <p class="section-copy" style="margin: 0.7rem 0 0;">{summary}</p>
+</a>

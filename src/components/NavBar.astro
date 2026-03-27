@@ -1,0 +1,23 @@
+---
+interface LinkItem {
+  href: string;
+  label: string;
+}
+
+const { links = [] as LinkItem[] } = Astro.props;
+---
+<div class="nav-shell">
+  <div class="container nav">
+    <a class="brand" href="/home">
+      <span class="brand-mark"></span>
+      <span>AstroCademiX</span>
+    </a>
+
+    <div class="nav-links">
+      {links.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+      <a class="button-ghost" href="/">Entry</a>
+    </div>
+  </div>
+</div>

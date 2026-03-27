@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StarfieldBackground from '../../components/StarfieldBackground.astro';
+import NavBar from '../../components/NavBar.astro';
+import Footer from '../../components/Footer.astro';
+
+const links = [
+  { href: '/home#about', label: 'About' },
+  { href: '/home#members', label: 'Members' },
+  { href: '/thinking', label: 'Thinking' }
+];
+---
+<BaseLayout title="What we read and why we share it" description="Starter thinking note.">
+  <StarfieldBackground />
+  <NavBar links={links} />
+  <main class="section">
+    <div class="container" style="max-width: 760px;">
+      <div class="section-kicker">Reading</div>
+      <h1 class="section-title">What we read and why we share it</h1>
+      <div class="glass floating-panel">
+        <p class="section-copy" style="max-width:none; margin-top:0;">
+          This page can become a reading note template. Use it for paper responses, book notes, or summaries of discussions from the club.
+        </p>
+        <p class="section-copy" style="max-width:none;">
+          It does not need to feel like a polished publication. It can simply be a place where thinking becomes visible.
+        </p>
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

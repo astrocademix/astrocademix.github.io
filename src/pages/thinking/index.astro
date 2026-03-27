@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import StarfieldBackground from '../../components/StarfieldBackground.astro';
+import NavBar from '../../components/NavBar.astro';
+import Footer from '../../components/Footer.astro';
+import ThinkingCard from '../../components/ThinkingCard.astro';
+import { thinkingPosts } from '../../data/thinking';
+
+const links = [
+  { href: '/home#about', label: 'About' },
+  { href: '/home#members', label: 'Members' },
+  { href: '/home#thinking', label: 'Thinking' }
+];
+---
+<BaseLayout title="Thinking · AstroCademiX" description="Thinking posts for AstroCademiX.">
+  <StarfieldBackground />
+  <NavBar links={links} />
+  <main class="section">
+    <div class="container">
+      <div class="section-kicker">Thinking</div>
+      <h1 class="section-title">A lightweight writing space for the club.</h1>
+      <p class="section-copy">
+        Replace these starter notes with your real essays, commentaries, project sketches, and reading notes.
+      </p>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top:1.5rem;">
+        {thinkingPosts.map((post) => (
+          <ThinkingCard
+            title={post.title}
+            summary={post.summary}
+            date={post.date}
+            tag={post.tag}
+            href={`/thinking/${post.slug}`}
+          />
+        ))}
+      </div>
+    </div>
+  </main>
+  <Footer />
+</BaseLayout>

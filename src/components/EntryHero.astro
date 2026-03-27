@@ -1,0 +1,35 @@
+---
+import { site } from '../data/site';
+---
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <div class="hero-chip">Astronomy · Astrophysics · Frontier ML</div>
+      <h1>
+        Astro<span style="background: linear-gradient(90deg, var(--glow-a), var(--glow-b), var(--glow-c)); -webkit-background-clip:text; background-clip:text; color: transparent;">CademiX</span>
+      </h1>
+      <p>
+        {site.mission}
+      </p>
+      <div style="display:flex; gap:0.9rem; flex-wrap:wrap; margin-top:1.4rem;">
+        <a class="button" href={site.ctaHref}>{site.ctaLabel}</a>
+        <a class="button-ghost" href="/thinking">Thinking</a>
+      </div>
+      <div class="floating-panel glass" style="margin-top:1.4rem; max-width:48rem;">
+        <strong style="display:block; margin-bottom:0.45rem;">Entry page notes</strong>
+        <span style="color: var(--muted); line-height: 1.8;">
+          This page keeps the Clay-style landing feel and cosmic background, while the rest of the site stays clean and club-oriented.
+        </span>
+      </div>
+    </div>
+
+    <div class="blackhole-shell" aria-hidden="true">
+      <div class="blackhole-stars"></div>
+      <div class="blackhole-haze"></div>
+      <div class="blackhole-ring"></div>
+      <div class="blackhole-ring-2"></div>
+      <div class="blackhole-core"></div>
+    </div>
+  </div>
+</section>
