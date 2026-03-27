@@ -1,16 +1,5 @@
 # AstroCademiX site
 
-This is an Astro site, not a Jekyll site.
-
-## Important GitHub Pages setting
-
-In your GitHub repository:
-
-Settings -> Pages -> Build and deployment -> Source
-
-Set **Source** to **GitHub Actions**.
-
-Do **not** use **Deploy from a branch**, otherwise GitHub will run Jekyll against the source tree and fail on `.astro` files.
 
 ## Local development
 
