@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AstroCademiX</title>
+  <meta name="description" content="AstroCademiX entrance page." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='44' fill='black' stroke='%237dd3fc' stroke-width='4'/%3E%3Ccircle cx='50' cy='50' r='14' fill='%237dd3fc'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --bg: #050816;
+      --fg: #f8fafc;
+      --muted: #cbd5e1;
+      --line: rgba(125, 211, 252, 0.25);
+      --accent-1: #8b5cf6;
+      --accent-2: #38bdf8;
+      --accent-3: #22d3ee;
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; min-height: 100%; background: var(--bg); color: var(--fg); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif; }
+    body { overflow-x: hidden; }
+    a { color: inherit; text-decoration: none; }
+
+    #starfield {
+      position: fixed;
+      inset: 0;
+      z-index: -20;
+      pointer-events: none;
+    }
+
+    .page {
+      position: relative;
+      min-height: 100vh;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 50% 30%, rgba(56, 189, 248, 0.08), transparent 34%),
+        radial-gradient(circle at 20% 0%, rgba(139, 92, 246, 0.08), transparent 32%),
+        linear-gradient(180deg, rgba(2, 6, 23, 0.88), rgba(2, 6, 23, 0.95));
+    }
+
+    .blackhole-video {
+      position: absolute;
+      top: -300px;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -10;
+      transform: rotate(180deg);
+      clip-path: inset(5% 0 5% 0);
+      mask-image: radial-gradient(ellipse at center, white 0%, white 35%, transparent 72%);
+      opacity: 0.95;
+      mix-blend-mode: screen;
+      filter: saturate(1.15) contrast(1.1);
+      pointer-events: none;
+    }
+
+    .noise {
+      position: absolute;
+      inset: 0;
+      z-index: -8;
+      opacity: 0.08;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.3) 0.5px, transparent 0.7px);
+      background-size: 18px 18px;
+      pointer-events: none;
+    }
+
+    .shell {
+      width: min(1240px, calc(100vw - 32px));
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 56px;
+    }
+
+    .hero {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 72px;
+      align-items: center;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(139, 92, 246, 0.9), rgba(56, 189, 248, 0.92));
+      color: white;
+      font-weight: 700;
+      font-size: 0.95rem;
+      letter-spacing: 0.02em;
+      box-shadow: 0 16px 38px rgba(56, 189, 248, 0.16);
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: white;
+      box-shadow: 0 0 14px rgba(255,255,255,0.9);
+    }
+
+    h1 {
+      margin: 22px 0 0;
+      font-size: clamp(3rem, 8vw, 5.3rem);
+      line-height: 1.02;
+      letter-spacing: -0.04em;
+      font-weight: 800;
+    }
+
+    .gradient {
+      display: inline-block;
+      color: transparent;
+      background: linear-gradient(90deg, #c084fc 0%, #60a5fa 45%, #67e8f9 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .subtext {
+      margin: 24px 0 0;
+      max-width: 640px;
+      font-size: clamp(1rem, 2vw, 1.1rem);
+      line-height: 1.8;
+      color: var(--muted);
+    }
+
+    .actions {
+      margin-top: 34px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .button-primary,
+    .button-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 24px;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease, border-color 180ms ease;
+    }
+
+    .button-primary {
+      background: linear-gradient(90deg, rgba(124, 58, 237, 0.95), rgba(14, 165, 233, 0.95));
+      box-shadow: 0 18px 44px rgba(59, 130, 246, 0.2);
+    }
+
+    .button-secondary {
+      border: 1px solid rgba(148, 163, 184, 0.28);
+      background: rgba(15, 23, 42, 0.42);
+      color: #e2e8f0;
+      backdrop-filter: blur(12px);
+    }
+
+    .button-primary:hover,
+    .button-secondary:hover {
+      transform: translateY(-1px);
+    }
+
+    .button-secondary:hover { border-color: rgba(56, 189, 248, 0.38); }
+
+    .microcopy {
+      margin-top: 16px;
+      color: #94a3b8;
+      font-size: 0.95rem;
+    }
+
+    .visual {
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .orbital-stage {
+      position: relative;
+      width: min(520px, 88vw);
+      aspect-ratio: 1;
+    }
+
+    .orbit {
+      position: absolute;
+      inset: 13%;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.4) inset;
+    }
+
+    .orbit-2 { inset: 4%; opacity: 0.72; }
+    .orbit-3 { inset: 24%; opacity: 0.52; }
+
+    .center-core {
+      position: absolute;
+      inset: 50%;
+      width: 110px;
+      height: 110px;
+      transform: translate(-50%, -50%);
+      border-radius: 999px;
+      background:
+        radial-gradient(circle, rgba(255,255,255,0.95) 0 10%, rgba(125, 211, 252, 0.95) 12%, rgba(34, 211, 238, 0.45) 26%, rgba(56, 189, 248, 0.18) 50%, transparent 72%);
+      filter: blur(0.2px);
+      box-shadow: 0 0 48px rgba(56, 189, 248, 0.45), 0 0 84px rgba(139, 92, 246, 0.25);
+    }
+
+    .orbiting-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      height: 100%;
+      animation: orbit-spin 26s linear infinite;
+    }
+
+    .orbiting-label.reverse { animation-direction: reverse; animation-duration: 32s; }
+
+    .label-chip {
+      position: absolute;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.62);
+      border: 1px solid rgba(148, 163, 184, 0.18);
+      color: #e2e8f0;
+      font-size: 0.92rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      backdrop-filter: blur(14px);
+      box-shadow: 0 12px 30px rgba(2, 6, 23, 0.35);
+      white-space: nowrap;
+    }
+
+    .label-chip::before {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      margin-right: 10px;
+      vertical-align: middle;
+      background: linear-gradient(180deg, var(--accent-2), var(--accent-3));
+      box-shadow: 0 0 18px rgba(34, 211, 238, 0.62);
+    }
+
+    .l1 { top: 1%; left: 50%; transform: translateX(-50%); }
+    .l2 { top: 22%; right: -2%; }
+    .l3 { bottom: 6%; right: 16%; }
+    .l4 { bottom: 13%; left: 6%; }
+    .l5 { top: 24%; left: -3%; }
+
+    .rotator-wrap {
+      position: absolute;
+      left: 50%;
+      bottom: -18px;
+      width: min(520px, 92vw);
+      transform: translateX(-50%);
+      text-align: center;
+    }
+
+    .rotator-prefix {
+      color: #94a3b8;
+      font-size: 0.95rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .rotator-text {
+      margin-top: 12px;
+      min-height: 64px;
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      font-weight: 700;
+      color: #f8fafc;
+      letter-spacing: -0.02em;
+    }
+
+    .footer-note {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 18px;
+      text-align: center;
+      color: rgba(226, 232, 240, 0.62);
+      font-size: 0.9rem;
+      letter-spacing: 0.02em;
+      padding: 0 18px;
+    }
+
+    @keyframes orbit-spin {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @media (max-width: 960px) {
+      .shell { padding-top: 88px; padding-bottom: 44px; }
+      .hero { grid-template-columns: 1fr; gap: 42px; }
+      .textual { text-align: center; }
+      .subtext { margin-left: auto; margin-right: auto; }
+      .actions { justify-content: center; }
+      .visual { min-height: 430px; }
+      .rotator-wrap { position: static; transform: none; width: 100%; margin-top: 18px; }
+      .footer-note { position: static; margin-top: 24px; }
+    }
+
+    @media (max-width: 600px) {
+      .shell { width: calc(100vw - 24px); }
+      .blackhole-video { top: -180px; }
+      .label-chip { font-size: 0.8rem; padding: 8px 10px; }
+      .center-core { width: 88px; height: 88px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="starfield"></canvas>
+  <div class="page">
+    <video class="blackhole-video" autoplay loop muted playsinline>
+      <source src="https://cdn.jsdelivr.net/gh/McKlay/portfolio-website@main/public/assets/videos/blackhole.webm" type="video/webm" />
+      <source src="https://raw.githubusercontent.com/McKlay/portfolio-website/main/public/assets/videos/blackhole.webm" type="video/webm" />
+    </video>
+    <div class="noise"></div>
+
+    <main class="shell">
+      <section class="hero">
+        <div class="textual">
+          <div class="pill"><span class="eyebrow-dot"></span> AstroCademiX Entry Portal</div>
+          <h1>
+            Crafting <span class="gradient">Astro‑ML Systems</span><br />
+            for scientific discovery.
+          </h1>
+          <p class="subtext">
+            AstroCademiX is a club for people who care about astronomy, astrophysics,
+            interpretable machine learning, and data‑driven methods. We explore how modern
+            models can help us read the sky, discover structure in data, and think more clearly
+            about physical systems.
+          </p>
+          <div class="actions">
+            <a class="button-primary" href="/home/">Learn More</a>
+            <a class="button-secondary" href="https://github.com/" target="_blank" rel="noreferrer">Open GitHub</a>
+          </div>
+          <div class="microcopy">Entrance page with Clay blackhole video and Clay-style rotating starfield.</div>
+        </div>
+
+        <div class="visual">
+          <div>
+            <div class="orbital-stage">
+              <div class="orbit orbit-1"></div>
+              <div class="orbit orbit-2"></div>
+              <div class="orbit orbit-3"></div>
+              <div class="center-core"></div>
+
+              <div class="orbiting-label">
+                <div class="label-chip l1">Astrophysics</div>
+                <div class="label-chip l2">Machine Learning</div>
+                <div class="label-chip l3">Discovery</div>
+              </div>
+
+              <div class="orbiting-label reverse">
+                <div class="label-chip l4">Data‑Driven Methods</div>
+                <div class="label-chip l5">Interpretability</div>
+              </div>
+            </div>
+            <div class="rotator-wrap">
+              <div class="rotator-prefix">currently orbiting around</div>
+              <div class="rotator-text" id="rotator">Fast ideas, clean structure, real science.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div class="footer-note">Press Learn More to enter the Astro Darkness home layer.</div>
+  </div>
+
+  <script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.177.0/build/three.module.js';
+
+    const canvas = document.getElementById('starfield');
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.z = 1;
+
+    const MAX_STARS = 10000;
+    const positions = new Float32Array(MAX_STARS * 3);
+    for (let i = 0; i < MAX_STARS; i++) {
+      const u = Math.random();
+      const v = Math.random();
+      const theta = 2 * Math.PI * u;
+      const phi = Math.acos(2 * v - 1);
+      const radius = 1.2 * Math.cbrt(Math.random());
+      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
+      positions[i * 3 + 2] = radius * Math.cos(phi);
+    }
+
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    const material = new THREE.PointsMaterial({
+      color: 0xffffff,
+      size: 0.0042,
+      sizeAttenuation: true,
+      transparent: true,
+      opacity: 0.92,
+      depthWrite: false,
+    });
+    const points = new THREE.Points(geometry, material);
+    points.rotation.z = Math.PI / 4;
+    scene.add(points);
+
+    function resize() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      renderer.setPixelRatio(dpr);
+      renderer.setSize(window.innerWidth, window.innerHeight, false);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function animate() {
+      requestAnimationFrame(animate);
+      points.rotation.x -= 0.0009;
+      points.rotation.y -= 0.00065;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    const lines = [
+      'Astronomy, astrophysics, and model building.',
+      'Interpretable ML for scientific questions.',
+      'Reading structure from complex data.',
+      'From observation to explanation.',
+      'Where rigorous thinking meets cosmic scale.'
+    ];
+    const rotator = document.getElementById('rotator');
+    let idx = 0;
+    setInterval(() => {
+      idx = (idx + 1) % lines.length;
+      rotator.style.opacity = '0';
+      rotator.style.transform = 'translateY(6px)';
+      setTimeout(() => {
+        rotator.textContent = lines[idx];
+        rotator.style.transition = 'opacity 220ms ease, transform 220ms ease';
+        rotator.style.opacity = '1';
+        rotator.style.transform = 'translateY(0px)';
+      }, 180);
+    }, 2800);
+  </script>
+</body>
+</html>

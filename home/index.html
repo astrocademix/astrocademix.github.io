@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Darkness - Web Developer & Creative Coder</title>
+  <meta name="description" content="Astro Darkness home layer." />
+  <style>
+    :root {
+      --bg: #070b14;
+      --panel: rgba(15, 23, 42, 0.72);
+      --panel-2: rgba(15, 23, 42, 0.48);
+      --fg: #f8fafc;
+      --muted: #94a3b8;
+      --line: rgba(148,163,184,.18);
+      --accent: #7c3aed;
+      --accent-2: #38bdf8;
+      --shadow: 0 20px 50px rgba(2,6,23,.36);
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;min-height:100%;background:var(--bg);color:var(--fg);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif}
+    body{overflow-x:hidden;background:
+      radial-gradient(circle at top, rgba(59,130,246,.12), transparent 30%),
+      radial-gradient(circle at 80% 20%, rgba(124,58,237,.12), transparent 24%),
+      linear-gradient(180deg,#020617 0%,#070b14 100%)}
+    a{text-decoration:none;color:inherit}
+    .wrap{width:min(1160px,calc(100vw - 28px));margin:0 auto}
+    .nav{position:sticky;top:0;z-index:20;border-bottom:1px solid rgba(148,163,184,.08);backdrop-filter:blur(14px);background:rgba(2,6,23,.52)}
+    .nav-inner{display:flex;align-items:center;justify-content:space-between;min-height:74px;gap:20px}
+    .brand{font-weight:800;letter-spacing:.18em;font-size:.9rem}
+    .links{display:flex;gap:18px;flex-wrap:wrap;color:#cbd5e1}
+    .links a{padding:8px 10px;border-radius:10px}
+    .links a:hover{background:rgba(255,255,255,.04)}
+    .hero{padding:86px 0 44px;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center}
+    .eyebrow{color:#cbd5e1;text-transform:uppercase;letter-spacing:.18em;font-size:.84rem}
+    h1{margin:10px 0 0;font-size:clamp(3rem,8vw,5.2rem);line-height:.98;letter-spacing:-.05em}
+    .role{margin-top:14px;font-size:clamp(1.2rem,2vw,1.5rem);color:#cbd5e1}
+    .lead{margin-top:22px;max-width:680px;color:#94a3b8;line-height:1.9;font-size:1.04rem}
+    .actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:28px}
+    .button{display:inline-flex;align-items:center;justify-content:center;min-height:52px;padding:0 20px;border-radius:14px;font-weight:700}
+    .button-primary{background:linear-gradient(90deg,var(--accent),var(--accent-2));box-shadow:0 18px 44px rgba(59,130,246,.18)}
+    .button-secondary{background:rgba(15,23,42,.55);border:1px solid var(--line);color:#e2e8f0}
+    .chip-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+    .chip{padding:10px 14px;border-radius:999px;background:rgba(15,23,42,.56);border:1px solid var(--line);color:#e2e8f0;font-weight:600}
+    .visual{position:relative;min-height:420px}
+    .orb{position:absolute;inset:0;display:grid;place-items:center}
+    .orb-shell{width:min(380px,82vw);aspect-ratio:1;border-radius:999px;background:
+      radial-gradient(circle at 50% 50%, rgba(255,255,255,.9) 0 6%, rgba(56,189,248,.78) 8%, rgba(34,211,238,.16) 20%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(124,58,237,.22), transparent 58%);
+      box-shadow:0 0 100px rgba(56,189,248,.12), inset 0 0 120px rgba(56,189,248,.06);
+      position:relative}
+    .orb-shell::before,.orb-shell::after{content:"";position:absolute;inset:8%;border-radius:999px;border:1px solid rgba(148,163,184,.14)}
+    .orb-shell::after{inset:20%;opacity:.6}
+    .section{padding:38px 0}
+    .section h2{margin:0 0 8px;font-size:2rem;letter-spacing:-.03em}
+    .section p.meta{margin:0 0 24px;color:var(--muted)}
+    .skills-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+    .card{background:linear-gradient(180deg,rgba(15,23,42,.68),rgba(15,23,42,.5));border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow)}
+    .card h3{margin:0 0 14px;font-size:1.1rem}
+    .tag-list{display:flex;flex-wrap:wrap;gap:10px}
+    .tag{padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(148,163,184,.14);color:#e2e8f0}
+    .posts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+    .post{display:flex;flex-direction:column;gap:12px;min-height:240px}
+    .date{font-size:.88rem;color:#cbd5e1}
+    .post h3{margin:0;font-size:1.12rem;line-height:1.45}
+    .excerpt{color:#94a3b8;line-height:1.7}
+    .topics{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto}
+    .topic{font-size:.84rem;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.04);border:1px solid rgba(148,163,184,.14);color:#cbd5e1}
+    .post a.more{margin-top:4px;font-weight:700;color:#7dd3fc}
+    .footer{padding:42px 0 56px;color:#94a3b8;text-align:center}
+    @media(max-width:900px){.hero{grid-template-columns:1fr}.skills-grid,.posts{grid-template-columns:1fr}.visual{min-height:300px}.nav-inner{padding:8px 0}.links{justify-content:flex-end}}
+  </style>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="/home/">DARKNESS</a>
+      <nav class="links">
+        <a href="/home/">Home</a>
+        <a href="/home/blog/">Blog</a>
+        <a href="/home/projects/">Projects</a>
+        <a href="/home/about/">About</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Hello, I'm</div>
+        <h1>DARKNESS</h1>
+        <div class="role">Web Developer &amp; Creative Coder</div>
+        <p class="lead">Building immersive web experiences with Three.js, modern animations, and dark aesthetics. Specializing in motion-rich interfaces that push the boundaries of what's possible on the web.</p>
+        <div class="actions">
+          <a class="button button-primary" href="/home/projects/">View Projects</a>
+          <a class="button button-secondary" href="/home/blog/">Read Blog</a>
+        </div>
+        <div class="chip-row">
+          <span class="chip">TypeScript</span>
+          <span class="chip">React</span>
+          <span class="chip">Three.js</span>
+          <span class="chip">Astro</span>
+        </div>
+      </div>
+      <div class="visual">
+        <div class="orb"><div class="orb-shell"></div></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Skills &amp; Technologies</h2>
+      <p class="meta">Tools and technologies I work with</p>
+      <div class="skills-grid">
+        <article class="card">
+          <h3>Frontend</h3>
+          <div class="tag-list">
+            <span class="tag">Astro</span><span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">Three.js</span><span class="tag">CSS Animations</span><span class="tag">WebGL</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Design &amp; Animation</h3>
+          <div class="tag-list">
+            <span class="tag">Motion Design</span><span class="tag">3D Graphics</span><span class="tag">UI/UX</span><span class="tag">Dark Themes</span><span class="tag">Particle Systems</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Tools &amp; Workflow</h3>
+          <div class="tag-list">
+            <span class="tag">Git</span><span class="tag">npm/pnpm</span><span class="tag">Vite</span><span class="tag">VS Code</span><span class="tag">Chrome DevTools</span>
+          </div>
+        </article>
+        <article class="card">
+          <h3>Currently Learning</h3>
+          <div class="tag-list">
+            <span class="tag">GLSL Shaders</span><span class="tag">WebGPU</span><span class="tag">React Three Fiber</span><span class="tag">Blender</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Recent Posts</h2>
+      <p class="meta">Latest articles from the blog</p>
+      <div class="posts">
+        <article class="card post">
+          <div class="date">Dec 25, 2025</div>
+          <h3>Mastering CSS Animations in Dark Themes</h3>
+          <div class="excerpt">Advanced CSS animation techniques for creating motion-rich dark interfaces.</div>
+          <div class="topics"><span class="topic">css animations</span><span class="topic">design</span><span class="topic">dark-theme</span></div>
+          <a class="more" href="/home/blog/">Read article</a>
+        </article>
+        <article class="card post">
+          <div class="date">Dec 20, 2025</div>
+          <h3>Building Particle Systems with Three.js</h3>
+          <div class="excerpt">A deep dive into creating beautiful particle effects for web backgrounds.</div>
+          <div class="topics"><span class="topic">three.js</span><span class="topic">webgl</span><span class="topic">particles</span><span class="topic">tutorial</span></div>
+          <a class="more" href="/home/blog/">Read article</a>
+        </article>
+        <article class="card post">
+          <div class="date">Dec 15, 2025</div>
+          <h3>Welcome to the Darkness</h3>
+          <div class="excerpt">Exploring the depths of dark-themed web design with Three.js and modern animations.</div>
+          <div class="topics"><span class="topic">astro</span><span class="topic">three.js</span><span class="topic">dark-theme</span><span class="topic">animations</span></div>
+          <a class="more" href="/home/blog/">Read article</a>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">Astro Darkness home layer inside the AstroCademiX combined static package.</footer>
+</body>
+</html>
