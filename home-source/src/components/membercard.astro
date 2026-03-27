@@ -1,170 +1,129 @@
 ---
-interface Props {
-  title: string;
-  description: string;
-  image?: string | undefined;
-  link?: string | undefined;
-  github?: string | undefined;
-  tags?: string[] | undefined;
-  featured?: boolean | undefined;
-}
-
-const base = import.meta.env.BASE_URL;
-const { title, description, image, link, github, tags, featured } = Astro.props;
-const imageSrc = image?.startsWith('/') ? `${base}${image.slice(1)}` : image;
+const { member, featured = false } = Astro.props;
+const {
+  name,
+  role,
+  bio,
+  avatar,
+  website,
+  github,
+  email,
+  tags = [],
+} = member.data;
 ---
 
-<article class="project-card" class:list={{ featured }}>
-  <div class="project-card-content">
-    {featured && <span class="featured-badge">Featured</span>}
-    {image && (
-      <div class="project-image">
-        <img src={imageSrc} alt={title} loading="lazy" />
-      </div>
-    )}
-    <h3 class="project-title">{title}</h3>
-    <p class="project-description">{description}</p>
-    {tags && tags.length > 0 && (
-      <div class="project-tags">
-        {tags.map((tag) => (
+<article class={`member-card ${featured ? 'featured' : ''}`}>
+  {avatar && (
+    <div class="avatar-wrap">
+      <img src={avatar} alt={name} class="avatar" />
+    </div>
+  )}
+
+  <div class="member-content">
+    <h3 class="member-name">{name}</h3>
+    <p class="member-role">{role}</p>
+    <p class="member-bio">{bio}</p>
+
+    {tags.length > 0 && (
+      <div class="member-tags">
+        {tags.map((tag: string) => (
           <span class="tag">{tag}</span>
         ))}
       </div>
     )}
-    <div class="project-links">
-      {link && (
-        <a href={link} class="project-link" target="_blank" rel="noopener noreferrer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-            <polyline points="15 3 21 3 21 9"></polyline>
-            <line x1="10" y1="14" x2="21" y2="3"></line>
-          </svg>
-          Live Demo
-        </a>
-      )}
-      {github && (
-        <a href={github} class="project-link" target="_blank" rel="noopener noreferrer">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-          </svg>
-          GitHub
-        </a>
-      )}
+
+    <div class="member-links">
+      {website && <a href={website} target="_blank" rel="noopener noreferrer">Website</a>}
+      {github && <a href={github} target="_blank" rel="noopener noreferrer">GitHub</a>}
+      {email && <a href={`mailto:${email}`}>Email</a>}
     </div>
   </div>
 </article>
 
 <style>
-  .project-card {
+  .member-card {
     position: relative;
-    background: var(--color-bg-card);
-    border: 1px solid var(--color-border);
-    border-radius: 1rem;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
     padding: 1.5rem;
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
-
-  .project-card.featured {
-    border-color: var(--color-accent-purple);
-  }
-
-  .project-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15);
-  }
-
-  .project-card-content {
-    position: relative;
-  }
-
-  .featured-badge {
-    display: inline-block;
-    padding: 0.25rem 0.75rem;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-accent-purple));
-    border-radius: 0.25rem;
-    font-size: 0.7rem;
-    font-weight: 600;
-    color: white;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 1rem;
-  }
-
-  .project-image {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    margin-bottom: 1.25rem;
-    border-radius: 0.5rem;
+    background: rgba(10, 10, 20, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
     overflow: hidden;
-    background: var(--color-bg-darker);
+    transition: transform 0.25s ease, border-color 0.25s ease;
   }
 
-  .project-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
+  .member-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(168, 85, 247, 0.45);
   }
 
-  .project-card:hover .project-image img {
-    transform: scale(1.05);
+  .member-card.featured {
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 0 0 28px rgba(168, 85, 247, 0.12);
   }
 
-  .project-title {
-    font-family: var(--font-heading);
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--color-text);
-    transition: color 0.2s ease;
-  }
-
-  .project-card:hover .project-title {
-    color: var(--color-primary);
-  }
-
-  .project-description {
-    color: var(--color-text-dim);
-    line-height: 1.6;
-    font-size: 0.9rem;
+  .avatar-wrap {
     margin-bottom: 1rem;
   }
 
-  .project-tags {
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .member-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+    color: #fff;
+  }
+
+  .member-role {
+    margin: 0 0 0.75rem;
+    color: #c084fc;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .member-bio {
+    margin: 0 0 1rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.65;
+  }
+
+  .member-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 1.25rem;
+    margin-bottom: 1rem;
   }
 
   .tag {
-    padding: 0.25rem 0.625rem;
-    background: rgba(59, 130, 246, 0.1);
-    border: 1px solid var(--color-border);
-    border-radius: 0.25rem;
-    font-size: 0.75rem;
-    color: var(--color-text-dim);
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(168, 85, 247, 0.14);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    color: #e9d5ff;
+    font-size: 0.78rem;
   }
 
-  .project-links {
+  .member-links {
     display: flex;
-    gap: 1rem;
     flex-wrap: wrap;
+    gap: 0.9rem;
   }
 
-  .project-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: var(--color-primary);
+  .member-links a {
+    color: #93c5fd;
     text-decoration: none;
-    font-size: 0.875rem;
-    font-weight: 500;
-    transition: color 0.2s ease;
+    font-size: 0.9rem;
   }
 
-  .project-link:hover {
-    color: var(--color-accent-cyan);
+  .member-links a:hover {
+    color: #ffffff;
   }
 </style>
