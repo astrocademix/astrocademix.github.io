@@ -12,8 +12,8 @@
   let camera: THREE.PerspectiveCamera | null = null;
   let renderer: THREE.WebGLRenderer | null = null;
   let particlesMesh: THREE.Points<THREE.BufferGeometry, THREE.PointsMaterial> | null = null;
-  let torus: THREE.Mesh<THREE.TorusGeometry, THREE.MeshBasicMaterial> | null = null;
-  let torus2: THREE.Mesh<THREE.TorusGeometry, THREE.MeshBasicMaterial> | null = null;
+
+
   let animationId: number | null = null;
   let mouseX = 0;
   let mouseY = 0;
@@ -98,27 +98,10 @@
     scene.add(particlesMesh);
 
     // 回転するトーラス（ドーナツ型）の追加
-    const torusGeometry = new THREE.TorusGeometry(10, 3, 16, 100);
-    const torusMaterial = new THREE.MeshBasicMaterial({
-      color: 0xa855f7,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.3,
-    });
-    torus = new THREE.Mesh(torusGeometry, torusMaterial);
-    scene.add(torus);
+
 
     // 2つ目のトーラス
-    const torus2Geometry = new THREE.TorusGeometry(15, 2, 16, 100);
-    const torus2Material = new THREE.MeshBasicMaterial({
-      color: 0xec4899,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.2,
-    });
-    torus2 = new THREE.Mesh(torus2Geometry, torus2Material);
-    torus2.rotation.x = Math.PI / 4;
-    scene.add(torus2);
+
 
     // イベントリスナーの追加
     document.addEventListener('mousemove', handleMouseMove);
@@ -141,13 +124,7 @@
     particlesMesh.rotation.x = Math.sin(time) * 0.1;
 
     // トーラスの回転
-    torus.rotation.x += 0.01;
-    torus.rotation.y += 0.005;
-    torus.rotation.z += 0.003;
 
-    torus2.rotation.x += 0.005;
-    torus2.rotation.y += 0.01;
-    torus2.rotation.z += 0.002;
 
     // マウス追従
     camera.position.x = mouseX * 2;
