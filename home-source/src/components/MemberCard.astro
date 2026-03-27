@@ -1,0 +1,129 @@
+---
+const { member, featured = false } = Astro.props;
+const {
+  name,
+  role,
+  bio,
+  avatar,
+  website,
+  github,
+  email,
+  tags = [],
+} = member.data;
+---
+
+<article class={`member-card ${featured ? 'featured' : ''}`}>
+  {avatar && (
+    <div class="avatar-wrap">
+      <img src={avatar} alt={name} class="avatar" />
+    </div>
+  )}
+
+  <div class="member-content">
+    <h3 class="member-name">{name}</h3>
+    <p class="member-role">{role}</p>
+    <p class="member-bio">{bio}</p>
+
+    {tags.length > 0 && (
+      <div class="member-tags">
+        {tags.map((tag: string) => (
+          <span class="tag">{tag}</span>
+        ))}
+      </div>
+    )}
+
+    <div class="member-links">
+      {website && <a href={website} target="_blank" rel="noopener noreferrer">Website</a>}
+      {github && <a href={github} target="_blank" rel="noopener noreferrer">GitHub</a>}
+      {email && <a href={`mailto:${email}`}>Email</a>}
+    </div>
+  </div>
+</article>
+
+<style>
+  .member-card {
+    position: relative;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 20px;
+    padding: 1.5rem;
+    background: rgba(10, 10, 20, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .member-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(168, 85, 247, 0.45);
+  }
+
+  .member-card.featured {
+    border-color: rgba(168, 85, 247, 0.4);
+    box-shadow: 0 0 28px rgba(168, 85, 247, 0.12);
+  }
+
+  .avatar-wrap {
+    margin-bottom: 1rem;
+  }
+
+  .avatar {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.15);
+  }
+
+  .member-name {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 0 0 0.35rem;
+    color: #fff;
+  }
+
+  .member-role {
+    margin: 0 0 0.75rem;
+    color: #c084fc;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+
+  .member-bio {
+    margin: 0 0 1rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.65;
+  }
+
+  .member-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .tag {
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    background: rgba(168, 85, 247, 0.14);
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    color: #e9d5ff;
+    font-size: 0.78rem;
+  }
+
+  .member-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+  }
+
+  .member-links a {
+    color: #93c5fd;
+    text-decoration: none;
+    font-size: 0.9rem;
+  }
+
+  .member-links a:hover {
+    color: #ffffff;
+  }
+</style>
