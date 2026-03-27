@@ -1,0 +1,87 @@
+name: Build and Deploy AstroCademiX
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          package-manager-cache: false
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Patch Astro base and site for /home deployment
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+
+          config_path = Path('home-source/astro.config.mjs')
+          text = config_path.read_text(encoding='utf-8')
+          text = re.sub(r"site:\s*'[^']*'", "site: 'https://astrocademix.github.io'", text)
+          text = re.sub(r"base:\s*'[^']*'", "base: '/home'", text)
+          config_path.write_text(text, encoding='utf-8')
+          print(config_path.read_text(encoding='utf-8'))
+          PY
+
+      - name: Install and build entry site
+        working-directory: ./entry-source
+        run: |
+          npm ci --no-fund --no-audit
+          npm run build
+
+      - name: Install and build home site
+        working-directory: ./home-source
+        run: |
+          npm ci --no-fund --no-audit
+          npm run build
+
+      - name: Merge build outputs
+        shell: bash
+        run: |
+          rm -rf final-site
+          mkdir -p final-site/home
+          cp -R entry-source/dist/. final-site/
+          cp -R home-source/dist/. final-site/home/
+          touch final-site/.nojekyll
+          find final-site -maxdepth 2 | sort | sed -n '1,200p'
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: ./final-site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
