@@ -1,9 +1,6 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ThreeBackground from '../components/ThreeBackground.astro';
-import Navigation from '../components/Navigation.astro';
-import ProjectCard from '../components/ProjectCard.astro';
 
 const allProjects = await getCollection('projects');
 const featuredProjects = allProjects.filter(p => p.data.featured);
