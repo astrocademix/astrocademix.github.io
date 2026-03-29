@@ -30,17 +30,18 @@ const members = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/members' }),
   schema: z.object({
     name: z.string(),
-    role: z.string(),
+    role: z.string().optional(),
+    affiliations: z.array(z.string()).max(2).default([]),
     bio: z.string(),
     avatar: z.string().optional(),
     website: z.string().optional(),
     github: z.string().optional(),
     email: z.string().optional(),
-    tags: z.array(z.string()).optional(),
-    featured: z.boolean().default(false),
+    scholar: z.string().optional(),
+    twitter: z.string().optional(),
+    tags: z.array(z.string()).default([]),
     order: z.number().default(999),
   }),
 });
-
 
 export const collections = { blog, projects, members };

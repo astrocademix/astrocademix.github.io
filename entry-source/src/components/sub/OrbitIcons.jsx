@@ -44,7 +44,7 @@
 import {
   SiPython,
   SiDocker,
-  SiLinux,
+  SiPytorch,
 } from "react-icons/si";
 import {
   TbTelescope,
@@ -58,7 +58,7 @@ const icons = [
   { icon: <TbPlanet className="text-cyan-300" />, delay: "0.2s" },
   { icon: <SiDocker className="text-blue-400" />, delay: "0.3s" },
   { icon: <TbGalaxy className="text-pink-300" />, delay: "0.4s" },
-  { icon: <SiLinux className="text-yellow-200" />, delay: "0.5s" },
+  { icon: <SiPytorch className="text-orange-500" />, delay: "0.5s" },
 ];
 
 const OrbitIcons = () => {

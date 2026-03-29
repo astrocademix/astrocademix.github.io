@@ -1,48 +1,120 @@
 ---
-const { member, featured = false } = Astro.props;
+const { member } = Astro.props;
+
 const {
   name,
   role,
+  affiliations = [],
   bio,
   avatar,
   website,
   github,
   email,
+  scholar,
+  twitter,
   tags = [],
 } = member.data;
 
 const base = import.meta.env.BASE_URL;
+
 const avatarUrl = avatar
   ? (avatar.startsWith('/') ? `${base}${avatar.slice(1)}` : `${base}${avatar}`)
   : null;
+
+const shownAffiliations = affiliations.slice(0, 2);
 ---
 
-
-<article class={`member-card ${featured ? 'featured' : ''}`}>
-  {avatar && (
-    <div class="avatar-wrap">
-      <img src={avatarUrl} alt={name} class="avatar" />
-    </div>
-  )}
-
-  <div class="member-content">
-    <h3 class="member-name">{name}</h3>
-    <p class="member-role">{role}</p>
-    <p class="member-bio">{bio}</p>
-
-    {tags.length > 0 && (
-      <div class="member-tags">
-        {tags.map((tag: string) => (
-          <span class="tag">{tag}</span>
-        ))}
+<article class="member-card">
+  <div class="member-top">
+    {avatarUrl && (
+      <div class="avatar-wrap">
+        <img src={avatarUrl} alt={name} class="avatar" />
       </div>
     )}
 
-    <div class="member-links">
-      {website && <a href={website} target="_blank" rel="noopener noreferrer">Website</a>}
-      {github && <a href={github} target="_blank" rel="noopener noreferrer">GitHub</a>}
-      {email && <a href={`mailto:${email}`}>Email</a>}
+    <div class="member-head">
+      <h3 class="member-name">{name}</h3>
+
+      {shownAffiliations.length > 0 && (
+        <div class="member-affiliations">
+          {shownAffiliations.map((affiliation) => (
+            <div class="affiliation-item">
+              <span class="affiliation-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 21h18" />
+                  <path d="M5 21V7l7-4 7 4v14" />
+                  <path d="M9 10h.01" />
+                  <path d="M9 14h.01" />
+                  <path d="M9 18h.01" />
+                  <path d="M15 10h.01" />
+                  <path d="M15 14h.01" />
+                  <path d="M15 18h.01" />
+                </svg>
+              </span>
+              <span>{affiliation}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {role && <p class="member-role">{role}</p>}
     </div>
+  </div>
+
+  {bio && <p class="member-bio">{bio}</p>}
+
+  {tags.length > 0 && (
+    <div class="member-tags">
+      {tags.map((tag: string) => (
+        <span class="tag">{tag}</span>
+      ))}
+    </div>
+  )}
+
+  <div class="member-links">
+    {website && (
+      <a class="icon-link" href={website} target="_blank" rel="noopener noreferrer" aria-label="Website" title="Website">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="9" />
+          <path d="M3 12h18" />
+          <path d="M12 3a15 15 0 0 1 0 18" />
+          <path d="M12 3a15 15 0 0 0 0 18" />
+        </svg>
+      </a>
+    )}
+
+    {github && (
+      <a class="icon-link" href={github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" title="GitHub">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 2C6.48 2 2 6.58 2 12.22c0 4.5 2.87 8.32 6.84 9.67.5.1.68-.22.68-.49 0-.24-.01-1.05-.01-1.91-2.78.62-3.37-1.21-3.37-1.21-.45-1.18-1.11-1.49-1.11-1.49-.91-.64.07-.63.07-.63 1 .07 1.53 1.06 1.53 1.06.9 1.57 2.35 1.12 2.92.86.09-.67.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.1 0-1.13.39-2.06 1.03-2.79-.11-.26-.45-1.31.1-2.73 0 0 .84-.28 2.75 1.07A9.3 9.3 0 0 1 12 6.84c.85 0 1.7.12 2.5.36 1.9-1.35 2.74-1.07 2.74-1.07.55 1.42.21 2.47.11 2.73.64.73 1.03 1.66 1.03 2.79 0 3.97-2.34 4.83-4.58 5.08.36.32.68.95.68 1.92 0 1.39-.01 2.5-.01 2.84 0 .27.18.6.69.49A10.25 10.25 0 0 0 22 12.22C22 6.58 17.52 2 12 2Z"/>
+        </svg>
+      </a>
+    )}
+
+    {email && (
+      <a class="icon-link" href={`mailto:${email}`} aria-label="Email" title="Email">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="5" width="18" height="14" rx="2" />
+          <path d="M3 7l9 6 9-6" />
+        </svg>
+      </a>
+    )}
+
+    {scholar && (
+      <a class="icon-link" href={scholar} target="_blank" rel="noopener noreferrer" aria-label="Google Scholar" title="Google Scholar">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm0 14L5 13.18V17c0 2.76 3.13 5 7 5s7-2.24 7-5v-3.82L12 17Z"/>
+        </svg>
+      </a>
+    )}
+
+    {twitter && (
+      <a class="icon-link" href={twitter} target="_blank" rel="noopener noreferrer" aria-label="Twitter / X" title="Twitter / X">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M18.9 2H22l-6.77 7.74L23.2 22h-6.24l-4.88-7.06L5.9 22H2.8l7.24-8.28L.8 2h6.4l4.4 6.43L18.9 2Zm-1.1 18h1.73L6.26 3.9H4.4L17.8 20Z"/>
+        </svg>
+      </a>
+    )}
   </div>
 </article>
 
@@ -50,46 +122,84 @@ const avatarUrl = avatar
   .member-card {
     position: relative;
     border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 20px;
-    padding: 1.5rem;
+    border-radius: 22px;
+    padding: 1.45rem;
     background: rgba(10, 10, 20, 0.45);
     backdrop-filter: blur(14px);
     -webkit-backdrop-filter: blur(14px);
     overflow: hidden;
-    transition: transform 0.25s ease, border-color 0.25s ease;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .member-card:hover {
     transform: translateY(-4px);
-    border-color: rgba(168, 85, 247, 0.45);
+    border-color: rgba(168, 85, 247, 0.42);
+    box-shadow: 0 0 28px rgba(168, 85, 247, 0.1);
   }
 
-  .member-card.featured {
-    border-color: rgba(168, 85, 247, 0.4);
-    box-shadow: 0 0 28px rgba(168, 85, 247, 0.12);
-  }
-
-  .avatar-wrap {
+  .member-top {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
     margin-bottom: 1rem;
   }
 
+  .avatar-wrap {
+    flex-shrink: 0;
+  }
+
   .avatar {
-    width: 88px;
-    height: 88px;
+    width: 84px;
+    height: 84px;
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.16);
+  }
+
+  .member-head {
+    min-width: 0;
+    flex: 1;
   }
 
   .member-name {
     font-size: 1.35rem;
     font-weight: 700;
-    margin: 0 0 0.35rem;
+    line-height: 1.2;
+    margin: 0 0 0.55rem;
     color: #fff;
   }
 
+  .member-affiliations {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+    margin-bottom: 0.55rem;
+  }
+
+  .affiliation-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.45rem;
+    color: rgba(255,255,255,0.72);
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+  .affiliation-icon {
+    width: 0.95rem;
+    height: 0.95rem;
+    flex-shrink: 0;
+    margin-top: 0.12rem;
+    color: rgba(192, 132, 252, 0.9);
+  }
+
+  .affiliation-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
   .member-role {
-    margin: 0 0 0.75rem;
+    margin: 0;
     color: #c084fc;
     font-size: 0.95rem;
     font-weight: 600;
@@ -97,39 +207,70 @@ const avatarUrl = avatar
 
   .member-bio {
     margin: 0 0 1rem;
-    color: rgba(255,255,255,0.8);
-    line-height: 1.65;
+    color: rgba(255,255,255,0.82);
+    line-height: 1.72;
+    font-size: 0.96rem;
   }
 
   .member-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1.05rem;
   }
 
   .tag {
-    padding: 0.35rem 0.7rem;
+    padding: 0.35rem 0.72rem;
     border-radius: 999px;
     background: rgba(168, 85, 247, 0.14);
-    border: 1px solid rgba(168, 85, 247, 0.2);
-    color: #e9d5ff;
+    border: 1px solid rgba(168, 85, 247, 0.22);
+    color: #ead7ff;
     font-size: 0.78rem;
+    line-height: 1;
   }
 
   .member-links {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.9rem;
+    gap: 0.7rem;
+    align-items: center;
   }
 
-  .member-links a {
-    color: #93c5fd;
+  .icon-link {
+    width: 2.2rem;
+    height: 2.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
     text-decoration: none;
-    font-size: 0.9rem;
+    color: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.2s ease;
   }
 
-  .member-links a:hover {
-    color: #ffffff;
+  .icon-link:hover {
+    color: #fff;
+    border-color: rgba(168, 85, 247, 0.4);
+    background: rgba(168, 85, 247, 0.12);
+    transform: translateY(-2px);
+  }
+
+  .icon-link svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  @media (max-width: 560px) {
+    .member-top {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .avatar {
+      width: 76px;
+      height: 76px;
+    }
   }
 </style>

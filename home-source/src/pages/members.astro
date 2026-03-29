@@ -7,38 +7,23 @@ import { getCollection } from 'astro:content';
 const members = (await getCollection('members')).sort(
   (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999)
 );
-
-const coreMembers = members.filter((member) => member.data.featured);
-const otherMembers = members.filter((member) => !member.data.featured);
 ---
 
 <BaseLayout title="Members">
   <Navigation />
 
-  <main class="projects-page">
-    <section class="projects-hero">
-      <h1 class="projects-title">Members</h1>
-      <p class="projects-subtitle">
+  <main class="members-page">
+    <section class="members-hero">
+      <h1 class="members-title">Members</h1>
+      <p class="members-subtitle">
         Meet the people behind AstroCademiX.
       </p>
     </section>
 
-    {coreMembers.length > 0 && (
-      <section class="featured-projects">
-        <h2 class="section-title">Core Members</h2>
-        <div class="projects-grid featured-grid">
-          {coreMembers.map((member) => (
-            <MemberCard member={member} featured={true} />
-          ))}
-        </div>
-      </section>
-    )}
-
-    <section class="all-projects">
-      <h2 class="section-title">Members</h2>
-      <div class="projects-grid">
-        {otherMembers.map((member) => (
-          <MemberCard member={member} featured={false} />
+    <section class="members-section">
+      <div class="members-grid">
+        {members.map((member) => (
+          <MemberCard member={member} />
         ))}
       </div>
     </section>
@@ -46,67 +31,54 @@ const otherMembers = members.filter((member) => !member.data.featured);
 </BaseLayout>
 
 <style>
-  .projects-page {
+  .members-page {
     min-height: 100vh;
     padding: calc(var(--nav-height) + 2rem) 2rem 5rem;
   }
 
-  .container {
+  .members-hero {
+    max-width: 900px;
+    margin: 0 auto 2.75rem;
+    text-align: center;
+  }
+
+  .members-title {
+    font-family: var(--font-heading);
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 700;
+    margin-bottom: 0.85rem;
+    color: var(--color-text);
+  }
+
+  .members-subtitle {
+    font-size: 1.05rem;
+    color: var(--color-text-dim);
+    max-width: 560px;
+    margin: 0 auto;
+    line-height: 1.8;
+  }
+
+  .members-section {
     max-width: 1200px;
     margin: 0 auto;
   }
 
-  .projects-header {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-
-  .page-title {
-    font-family: var(--font-heading);
-    font-size: clamp(2.5rem, 8vw, 4rem);
-    font-weight: 700;
-    margin-bottom: 0.75rem;
-    color: var(--color-text);
-  }
-
-  .page-subtitle {
-    font-size: 1.1rem;
-    color: var(--color-text-dim);
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  .featured-section,
-  .other-projects {
-    margin-bottom: 4rem;
-  }
-
-  .section-title {
-    font-family: var(--font-heading);
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin-bottom: 1.5rem;
-    color: var(--color-primary);
-  }
-
-  .projects-grid {
+  .members-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.5rem;
-  }
-
-  .featured-grid {
-    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 1.6rem;
   }
 
   @media (max-width: 768px) {
-    .projects-page {
+    .members-page {
       padding-top: calc(var(--nav-height) + 1rem);
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
 
-    .projects-grid,
-    .featured-grid {
+    .members-grid {
       grid-template-columns: 1fr;
+      gap: 1.2rem;
     }
   }
 </style>
