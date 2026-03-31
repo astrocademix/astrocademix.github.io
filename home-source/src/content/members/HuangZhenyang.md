@@ -3,7 +3,6 @@ name: "Zhenyang Huang"
 role: "Founder"
 affiliations:
   - "University of Chinese Academy of Sciences"
-  - "Xinjiang Astronomical Observatory, CAS"
 bio: "Works on astrophysics, interpretable machine learning, data-driven discovery and yummy chocolate"
 avatar: "/avatars/hzy.png"
 website: "https://hzy24.github.io"
