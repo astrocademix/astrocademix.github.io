@@ -1,8 +1,9 @@
 ---
 name: "Zhenyang Huang"
-role: "Founder"
+role: "Founder#1"
 affiliations:
-  - "University of Chinese Academy of Sciences"
+  - "Max-Planck-Institut für Kernphysik (MPIK)"
+  - "Heidelberg University"
 bio: "Works on astrophysics, interpretable machine learning, data-driven discovery and yummy chocolate"
 avatar: "/avatars/hzy.png"
 website: "https://hzy24.github.io"
@@ -13,5 +14,5 @@ tags:
   - "Astrophysics"
   - "Machine Learning"
   - "Chocolate"
-order: 0
+order: 1
 ---
