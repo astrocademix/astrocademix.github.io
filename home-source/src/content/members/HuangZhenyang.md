@@ -4,7 +4,7 @@ role: "Founder#1"
 affiliations:
   - "Max-Planck-Institut für Kernphysik (MPIK)"
   - "Heidelberg University"
-bio: "Works on astrophysics, interpretable machine learning, data-driven discovery and yummy chocolate"
+bio: "Working in astrophysics, interpretable machine learning, data-driven discovery and yummy chocolate"
 avatar: "/avatars/hzy.png"
 website: "https://hzy24.github.io"
 github: "https://github.com/hzy24"
