@@ -12,8 +12,8 @@ const sortedPosts = allBlogPosts.sort((a, b) =>
 ---
 
 <BaseLayout
-  title="Blog - Darkness"
-  description="Articles about web development, Three.js, and dark design"
+  title="Blog - AstroCademiX"
+  description="Notes and updates from AstroCademiX"
 >
   <ThreeBackground />
   <Navigation />
@@ -23,10 +23,11 @@ const sortedPosts = allBlogPosts.sort((a, b) =>
       <header class="blog-header">
         <h1 class="page-title">Blog</h1>
         <p class="page-subtitle">
-          Exploring the depths of web development, animations, and dark design
+          Research notes and ideas from our community.
         </p>
       </header>
 
+      {sortedPosts.length === 0 && <p class="empty-state">New articles are on the way. In the meantime, meet our members and explore our projects.</p>}
       <div class="blog-grid">
         {sortedPosts.map((post) => (
           <BlogCard
@@ -73,6 +74,7 @@ const sortedPosts = allBlogPosts.sort((a, b) =>
     margin: 0 auto;
   }
 
+  .empty-state { text-align: center; color: var(--color-text-dim); line-height: 1.7; }
   .blog-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));

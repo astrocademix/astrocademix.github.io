@@ -12,7 +12,7 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
 
 <BaseLayout
   title="AstroCademiX"
-  description="Portfolio of dark-themed web projects and experiments"
+  description="Projects and experiments from AstroCademiX"
 >
   <ThreeBackground />
   <Navigation />
@@ -22,9 +22,11 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
       <header class="projects-header">
         <h1 class="page-title">Projects</h1>
         <p class="page-subtitle">
-          A collection of dark-themed experiments and web projects
+          Research tools and experiments from our community
         </p>
       </header>
+
+      {allProjects.length === 0 && <p class="empty-state">Projects will appear here as the team shares them.</p>}
 
       {featuredProjects.length > 0 && (
         <section class="featured-section">
@@ -76,6 +78,8 @@ const otherProjects = allProjects.filter(p => !p.data.featured);
     max-width: 1200px;
     margin: 0 auto;
   }
+
+  .empty-state { text-align: center; color: var(--color-text-dim); line-height: 1.7; }
 
   .projects-header {
     text-align: center;
